@@ -1,5 +1,6 @@
 package villanueva.ricardo.ForumVue.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;
@@ -65,14 +66,14 @@ public class UserController {
         return response;
     }
 
-    @CrossOrigin(origins = {"http://localhost:8080"})
-    @GetMapping("/getProfile")
-    public Map<String, Object> getProfile(HttpSession session){
-        String userM = (String) session.getAttribute("user");
+    @CrossOrigin(origins = {"http://localhost:3000"})
+    @GetMapping("/getprofile")
+    public User getProfile(HttpServletRequest request){
+
+        String userM = (String) request.getAttribute("email");
         List<User> users = userService.findByEmail(userM);
         User user = users.get(0);
         Map<String, Object> response = new HashMap<>();
-        response.put("user", user);
-        return response;
+        return user;
     }
 }

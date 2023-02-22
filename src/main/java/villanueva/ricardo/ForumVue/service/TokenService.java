@@ -30,4 +30,9 @@ public class TokenService {
                 .sign(Algorithm.HMAC512(tokenSecet.getBytes()));
         return token;
     }
- }
+
+    public String getEmail(String token) {
+        String algo =  JWT.require(Algorithm.HMAC512(tokenSecet.getBytes())).build().verify(token).getClaim("email").asString();
+        return algo;
+    }
+}
