@@ -10,6 +10,7 @@ import villanueva.ricardo.ForumVue.model.User;
 import villanueva.ricardo.ForumVue.service.TokenService;
 import villanueva.ricardo.ForumVue.service.UserService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,12 +69,39 @@ public class UserController {
 
     @CrossOrigin(origins = {"http://localhost:3000"})
     @GetMapping("/getprofile")
-    public User getProfile(HttpServletRequest request){
+    public Map<String, Object> getProfile(HttpServletRequest request){
 
         String userM = (String) request.getAttribute("email");
         List<User> users = userService.findByEmail(userM);
         User user = users.get(0);
+
         Map<String, Object> response = new HashMap<>();
-        return user;
+        response.put("avatarUrl", "");
+        response.put("email", user.getEmail());
+        response.put("id", user.getId());
+        response.put("name", user.getName());
+        response.put("role", user.getRole());
+        response.put("_id", user.getId());
+        Map<String, Object> permissions = new HashMap<>();
+        List<String> root = new ArrayList<>();
+        switch (user.getRole()) {
+            case "admin":
+                root.add("own_topics:write");
+                root.add("own_topics:delete");
+                root.add("own_replies:write");
+                root.add("own_replies:delete");
+                root.add("categories:write");
+                root.add("categories:delete");
+            break;
+            case "user":
+                root.add("own_topics:write");
+                root.add("own_topics:delete");
+                root.add("own_replies:write");
+                root.add("own_replies:delete");
+            break;
+        }
+        permissions.put("root", root);
+        response.put("permissions", permissions);
+        return response;
     }
 }
