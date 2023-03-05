@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CategoriesDAO extends JpaRepository<Categories, Long> {
     List<Categories> findByTitleLike(String title);
+
+    List<Categories> findBySlugLike(String slug);
 }

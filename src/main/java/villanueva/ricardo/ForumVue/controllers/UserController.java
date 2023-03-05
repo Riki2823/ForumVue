@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import villanueva.ricardo.ForumVue.model.User;
+import villanueva.ricardo.ForumVue.service.CategoriesService;
 import villanueva.ricardo.ForumVue.service.TokenService;
 import villanueva.ricardo.ForumVue.service.UserService;
 
@@ -21,9 +22,11 @@ public class UserController {
     UserService userService;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    CategoriesService categoriesService;
 
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
+    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
     @PostMapping("/register")
     public Map<String, String> makeLogin(@RequestBody User user, HttpServletResponse resp){
         User u = new User();
@@ -40,7 +43,7 @@ public class UserController {
         return response;
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
+    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
     @PostMapping("/login")
     public Map<String, Object> login (@RequestBody User user, HttpServletResponse resp, HttpSession session){
         User u = new User();
@@ -61,13 +64,33 @@ public class UserController {
         }
         u = users.get(0);
         String token = tokenService.newToken(u);
-        session.setAttribute("user", u.getEmail());
+
+        Map<String,Object> userResponse = new HashMap<>();
+        userResponse.put("role", u.getRole());
+        userResponse.put("_id", u.getId());
+        userResponse.put("email", u.getEmail());
+        userResponse.put("name", u.getName());
+        userResponse.put("__v", 0);
+        userResponse.put("avatarUrl", "");
+        userResponse.put("id", u.getId());
+
+
+        Map<String, Object> permissions= new HashMap<>();
+        List<String> root = userService.getPermissions(u.getRole());
+        Map<String, Object> categories =  categoriesService.getCategoriesModerates(u);
+
+        permissions.put("root", root);
+        permissions.put("categories", categories);
+
+        userResponse.put("permissions", permissions);
+
+        response.put("user", userResponse);
         response.put("token", token);
-        response.put("user", u);
+
         return response;
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
+    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
     @GetMapping("/getprofile")
     public Map<String, Object> getProfile(HttpServletRequest request){
 
@@ -83,23 +106,8 @@ public class UserController {
         response.put("role", user.getRole());
         response.put("_id", user.getId());
         Map<String, Object> permissions = new HashMap<>();
-        List<String> root = new ArrayList<>();
-        switch (user.getRole()) {
-            case "admin":
-                root.add("own_topics:write");
-                root.add("own_topics:delete");
-                root.add("own_replies:write");
-                root.add("own_replies:delete");
-                root.add("categories:write");
-                root.add("categories:delete");
-            break;
-            case "user":
-                root.add("own_topics:write");
-                root.add("own_topics:delete");
-                root.add("own_replies:write");
-                root.add("own_replies:delete");
-            break;
-        }
+        List<String> root = userService.getPermissions(user.getRole());
+
         permissions.put("root", root);
         response.put("permissions", permissions);
         return response;
