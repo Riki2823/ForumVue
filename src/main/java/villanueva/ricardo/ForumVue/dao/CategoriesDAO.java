@@ -9,4 +9,6 @@ public interface CategoriesDAO extends JpaRepository<Categories, Long> {
     List<Categories> findByTitleLike(String title);
 
     List<Categories> findBySlugLike(String slug);
+
+    void deleteAllBySlug(String catSlug);
 }

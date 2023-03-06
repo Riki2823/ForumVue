@@ -68,4 +68,9 @@ public class CategoriesService {
         }
         return categories;
     }
+
+    public void deleteCatcegoryBySlug(String catSlug) {
+        Categories category = getCategoryBySlug(catSlug);
+        categoriesDao.delete(category);
+    }
 }

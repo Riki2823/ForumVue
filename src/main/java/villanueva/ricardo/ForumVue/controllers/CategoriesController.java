@@ -27,7 +27,7 @@ public class CategoriesController {
     TokenService tokenService;
 
     @PostMapping("/categories")
-    @CrossOrigin(origins = {"*"})
+    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
     public Map<String, Object> create(@RequestBody Categories categories, HttpServletResponse resp){
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -82,10 +82,21 @@ public class CategoriesController {
 
     @DeleteMapping("/categories/{catSlug}")
     @CrossOrigin( origins = {"http://192.168.8.155:3000"})
-    public boolean deleteCategorie(@PathVariable String catSlug){
+    public boolean deleteCategorie(@PathVariable String catSlug,  HttpServletResponse resp){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
 
+        if(tokenService.isAdmin(token)){
+            categoriesService.deleteCatcegoryBySlug(catSlug);
+            return true;
+        }else {
+            resp.setStatus(401);
+            return false;
+        }
 
-
-        return true;
     }
+
+    @CrossOrigin(origins = {"http:192.168.8.155"})
+    @PutMapping("/categories/{catSlug")
+    public
 }
