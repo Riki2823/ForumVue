@@ -26,7 +26,7 @@ public class UserController {
     CategoriesService categoriesService;
 
 
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     @PostMapping("/register")
     public Map<String, String> makeLogin(@RequestBody User user, HttpServletResponse resp){
         User u = new User();
@@ -43,7 +43,7 @@ public class UserController {
         return response;
     }
 
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     @PostMapping("/login")
     public Map<String, Object> login (@RequestBody User user, HttpServletResponse resp, HttpSession session){
         User u = new User();
@@ -90,7 +90,7 @@ public class UserController {
         return response;
     }
 
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     @GetMapping("/getprofile")
     public Map<String, Object> getProfile(HttpServletRequest request){
 

@@ -12,10 +12,7 @@ import villanueva.ricardo.ForumVue.model.Categories;
 import villanueva.ricardo.ForumVue.service.CategoriesService;
 import villanueva.ricardo.ForumVue.service.TokenService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class CategoriesController {
@@ -27,7 +24,7 @@ public class CategoriesController {
     TokenService tokenService;
 
     @PostMapping("/categories")
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     public Map<String, Object> create(@RequestBody Categories categories, HttpServletResponse resp){
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -61,27 +58,22 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/{catSlug}")
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     public Map<String, Object> returnCategory(@PathVariable String catSlug){
         return categoriesService.responseBuilder(catSlug);
     }
 
 
-    @GetMapping("/categories/{catSlug}/topics")
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
-    public String[] returnTopics(@PathVariable String catSlug){
-        String[] response = new String[0];
-        return response;
-    }
+
 
     @GetMapping("/categories")
-    @CrossOrigin(origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin(origins = {"http://localhost:3000"})
     public List<Categories> getCategories(){
         return categoriesService.getAllCategories();
     }
 
     @DeleteMapping("/categories/{catSlug}")
-    @CrossOrigin( origins = {"http://192.168.8.155:3000"})
+    @CrossOrigin( origins = {"http://localhost:3000"})
     public boolean deleteCategorie(@PathVariable String catSlug,  HttpServletResponse resp){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization").replace("Bearer ", "");
@@ -96,7 +88,33 @@ public class CategoriesController {
 
     }
 
-    @CrossOrigin(origins = {"http:192.168.8.155"})
-    @PutMapping("/categories/{catSlug")
-    public
+    @CrossOrigin(origins = {"http://localhost:3000"})
+    @PutMapping("/categories/{catSlug}")
+    public Map<String, Object> updateCategory(HttpServletResponse resp, @RequestBody Categories categories, @PathVariable String catSlug){
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if( tokenService.isAdmin(token)){
+
+
+            Categories category = new Categories();
+            BeanUtils.copyProperties(categories, category);
+
+
+            if (categoriesService.exists(catSlug)) {
+                categoriesService.updateCategory(category, catSlug);
+                response = categoriesService.responseBuilder(category.getSlug());
+
+            }else{
+                response.put("message", "La categoria que intentas modificar no existe");
+            }
+
+        }else {
+            resp.setStatus(401);
+        }
+        return response;
+    }
 }

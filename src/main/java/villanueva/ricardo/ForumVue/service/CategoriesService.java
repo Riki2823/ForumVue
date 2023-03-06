@@ -73,4 +73,16 @@ public class CategoriesService {
         Categories category = getCategoryBySlug(catSlug);
         categoriesDao.delete(category);
     }
+
+    public void updateCategory(Categories category, String catSlug) {
+        Categories aux = getCategoryBySlug(catSlug);
+        category.setSlug(aux.getSlug());
+        category.setId(aux.getId());
+        categoriesDao.save(category);
+    }
+
+    public boolean exists(String catSlug) {
+        boolean r = categoriesDao.existsBySlug(catSlug);
+        return r;
+    }
 }
