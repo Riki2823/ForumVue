@@ -11,4 +11,6 @@ public interface CategoriesDAO extends JpaRepository<Categories, Long> {
     List<Categories> findBySlugLike(String slug);
 
     boolean existsBySlug(String catSlug);
+
+    List<Categories> findByIdLike(long id);
 }

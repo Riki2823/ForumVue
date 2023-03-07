@@ -20,7 +20,7 @@ public class ForumVueApplication implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(tokenInterceptor)
 				.addPathPatterns("/getprofile")
-				.addPathPatterns("/topics/**")
+
 				.addPathPatterns("/profile/**");
 	}
 }

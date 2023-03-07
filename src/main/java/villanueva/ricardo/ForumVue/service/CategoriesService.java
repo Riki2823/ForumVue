@@ -85,4 +85,9 @@ public class CategoriesService {
         boolean r = categoriesDao.existsBySlug(catSlug);
         return r;
     }
+
+    public Categories findById(long id) {
+        List<Categories> catL = categoriesDao.findByIdLike(id);
+        return catL.get(0);
+    }
 }

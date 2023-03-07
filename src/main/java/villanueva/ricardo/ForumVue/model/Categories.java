@@ -1,9 +1,8 @@
 package villanueva.ricardo.ForumVue.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Categories {
@@ -14,6 +13,17 @@ public class Categories {
     String title;
     String description;
     String slug;
+
+    @OneToMany(mappedBy = "category")
+    Set<Topics> topicsSet;
+
+    public Set<Topics> getTopicsSet() {
+        return topicsSet;
+    }
+
+    public void setTopicsSet(Set<Topics> topicsSet) {
+        this.topicsSet = topicsSet;
+    }
 
     public String getSlug() {
         return slug;
