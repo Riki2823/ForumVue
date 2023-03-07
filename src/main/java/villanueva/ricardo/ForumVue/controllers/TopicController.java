@@ -37,12 +37,14 @@ public class TopicController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization").replace("Bearer ", "");
 
-        Topics topicToCreate = new Topics();
-        BeanUtils.copyProperties(topic, topicToCreate);
+        System.out.println(topic.getContent());
+        System.out.println(topic.getTitle());
+        System.out.println(topic.getCategorySlug());
 
+        Topics topicToCreate = new Topics(topic.getContent(), topic.getTitle(), topic.getCategorySlug());
         Map<String, Object> response = new HashMap<>();
-        Categories cat = categoriesService.getCategoryBySlug(topicToCreate.getTitle());
+        Categories cat = categoriesService.getCategoryBySlug(topicToCreate.getCategorySlug());
 
-        return response;
+        return null;
     }
 }

@@ -11,6 +11,7 @@ public class Topics {
     String content;
 
     String title;
+    String categorySlug;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -18,6 +19,20 @@ public class Topics {
 
     public Categories getCategory() {
         return category;
+    }
+
+    public Topics(String content, String title, String category) {
+        this.content = content;
+        this.title = title;
+        this.categorySlug = category;
+    }
+
+    public String getCategorySlug() {
+        return categorySlug;
+    }
+
+    public void setCategorySlug(String categorySlug) {
+        this.categorySlug = categorySlug;
     }
 
     public void setCategory(Categories category) {
