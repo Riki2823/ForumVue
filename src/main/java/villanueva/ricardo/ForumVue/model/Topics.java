@@ -1,6 +1,5 @@
 package villanueva.ricardo.ForumVue.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,9 +23,16 @@ public class Topics {
     @JoinColumn(name = "user_id")
     User user;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "category_id")
     Categories categoryRef;
+
+    public Topics(String content, String title, String category) {
+        this.content = content;
+        this.title = title;
+        this.category = category;
+    }
+
+    public Topics(){}
 
     public String get_id() {
         return _id;
@@ -35,8 +41,9 @@ public class Topics {
     public void set_id() {
         this._id = String.valueOf(this.id);
     }
-    public Topics(){
-    }
+
+
+
     public int getReplies() {
         return replies;
     }
@@ -79,12 +86,6 @@ public class Topics {
 
     public Categories getCategoryRef() {
         return categoryRef;
-    }
-
-    public Topics(String content, String title, String category) {
-        this.content = content;
-        this.title = title;
-        this.category = category;
     }
 
     public String getCategory() {

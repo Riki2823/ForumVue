@@ -53,8 +53,8 @@ public class TopicsService {
     }
 
     public Topics getTopicById(String topicID) {
-         List<Topics> topics = topicDAO.findByIdLike(Long.parseLong(topicID));
-         Topics t = topics.get(0);
+         Optional<Topics> topics = topicDAO.findById(Long.parseLong(topicID));
+         Topics t = topics.get();
          t.set_id();
          return t;
     }

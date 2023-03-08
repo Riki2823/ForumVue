@@ -72,9 +72,12 @@ public class TopicController {
         Topics t = topicsService.getTopicById(topicID);
         if (t == null){
             resp.setStatus(404);
+            return null;
+        }else{
+
+            Map<String, Object> response = topicsService.buildRespGet(t);
+            return response;
         }
-        Map<String, Object> response = topicsService.buildRespGet(t);
-        return response;
 
     }
 }

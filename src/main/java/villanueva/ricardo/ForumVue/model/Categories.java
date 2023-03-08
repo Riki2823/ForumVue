@@ -15,15 +15,7 @@ public class Categories {
     String slug;
 
     @OneToMany(mappedBy = "categoryRef", cascade = CascadeType.ALL)
-    Set<Topics> topicsSet;
 
-    public Set<Topics> getTopicsSet() {
-        return topicsSet;
-    }
-
-    public void setTopicsSet(Set<Topics> topicsSet) {
-        this.topicsSet = topicsSet;
-    }
 
     public String getSlug() {
         return slug;
