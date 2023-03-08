@@ -13,27 +13,36 @@ public class Topics {
 
     String title;
     String category;
-    String creationDate;
-    String updatedDate;
-    int nReplies;
+    String createdAt;
+    String updatedAt;
+    String _id;
+
+    int replies;
     int views;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
     @ManyToOne
-    @JoinColumn(name = "category_id")
     @JsonIgnore
+    @JoinColumn(name = "category_id")
     Categories categoryRef;
 
-    public Topics() {}
-
-    public int getnReplies() {
-        return nReplies;
+    public String get_id() {
+        return _id;
     }
 
-    public void setnReplies(int nReplies) {
-        this.nReplies = nReplies;
+    public void set_id() {
+        this._id = String.valueOf(this.id);
+    }
+    public Topics(){
+    }
+    public int getReplies() {
+        return replies;
+    }
+
+    public void setReplies(int replies) {
+        this.replies = replies;
     }
 
     public int getViews() {
@@ -52,20 +61,20 @@ public class Topics {
         this.user = user;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getUpdatedDate() {
-        return updatedDate;
+        return updatedAt;
     }
 
     public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
+        this.updatedAt = updatedDate;
     }
 
     public Categories getCategoryRef() {

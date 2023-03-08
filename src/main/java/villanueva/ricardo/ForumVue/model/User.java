@@ -18,6 +18,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     Set<Topics> topicsSet;
 
+    public Set<Topics> getTopicsSet() {
+        return topicsSet;
+    }
+
+    public void setTopicsSet(Set<Topics> topicsSet) {
+        this.topicsSet = topicsSet;
+    }
+
     public Long getId() {
         return id;
     }

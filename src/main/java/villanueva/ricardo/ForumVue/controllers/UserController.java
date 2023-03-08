@@ -55,7 +55,7 @@ public class UserController {
             return response;
         } else {
             BeanUtils.copyProperties(user, u);
-            if (!users.get(0).getPassword().equals(u.getPassword())) {
+            if (!users.get(0).getPassword().equals(userService.getSHA256(user.getPassword()))){
                 response.put("message", "Incorrect email o password");
                 resp.setStatus(400);
                 return response;
