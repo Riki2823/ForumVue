@@ -14,7 +14,7 @@ public class Categories {
     String description;
     String slug;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoryRef", cascade = CascadeType.ALL)
     Set<Topics> topicsSet;
 
     public Set<Topics> getTopicsSet() {

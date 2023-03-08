@@ -2,7 +2,6 @@ package villanueva.ricardo.ForumVue.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.mapping.Join;
 
 @Entity
 public class Topics {
@@ -13,7 +12,7 @@ public class Topics {
     String content;
 
     String title;
-    String categorySlug;
+    String category;
     String creationDate;
     String updatedDate;
     int nReplies;
@@ -25,7 +24,7 @@ public class Topics {
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonIgnore
-    Categories category;
+    Categories categoryRef;
 
     public Topics() {}
 
@@ -69,26 +68,26 @@ public class Topics {
         this.updatedDate = updatedDate;
     }
 
-    public Categories getCategory() {
-        return category;
+    public Categories getCategoryRef() {
+        return categoryRef;
     }
 
     public Topics(String content, String title, String category) {
         this.content = content;
         this.title = title;
-        this.categorySlug = category;
-    }
-
-    public String getCategorySlug() {
-        return categorySlug;
-    }
-
-    public void setCategorySlug(String categorySlug) {
-        this.categorySlug = categorySlug;
-    }
-
-    public void setCategory(Categories category) {
         this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setCategoryRef(Categories categoryRef) {
+        this.categoryRef = categoryRef;
     }
 
     public Long getId() {

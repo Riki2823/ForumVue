@@ -10,7 +10,6 @@ import villanueva.ricardo.ForumVue.model.User;
 import java.time.OffsetDateTime;
 import java.time.Period;
 import java.time.ZoneOffset;
-import java.util.List;
 
 @Service
 public class TopicsService {
@@ -24,9 +23,9 @@ public class TopicsService {
     TopicDAO topicDAO;
 
     public Topics addTopics(Topics topic, String token){
-        Topics toCreate = new Topics(topic.getContent(), topic.getTitle(), topic.getCategorySlug());
-        Categories cat = categoriesService.getCategoryBySlug(toCreate.getCategorySlug());
-        toCreate.setCategory(cat);
+        Topics toCreate = new Topics(topic.getContent(), topic.getTitle(), topic.getCategory());
+        Categories cat = categoriesService.getCategoryBySlug(toCreate.getCategory());
+        toCreate.setCategoryRef(cat);
         String date = OffsetDateTime
                 .now( ZoneOffset.UTC )
                 .minus( Period.ofYears( 1 ) )
