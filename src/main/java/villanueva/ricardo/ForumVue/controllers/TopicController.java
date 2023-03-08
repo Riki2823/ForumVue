@@ -43,7 +43,20 @@ public class TopicController {
 
         Topics topicToCreate = topicsService.addTopics(topic, token);
         Map<String, Object> response = new HashMap<>();
+        response.put("category", topicToCreate.getCategory());
+        response.put("content", topicToCreate.getContent());
+        response.put("createdAt", topicToCreate.getCreationDate());
+        response.put("id", topicToCreate.getId());
+        response.put("numberOfReplies", topicToCreate.getnReplies());
+        response.put("replies", null);
+        response.put("title", topicToCreate.getTitle());
+        response.put("updatedAt", topicToCreate.getUpdatedDate());
+        response.put("user", topicToCreate.getUser().getId());
+        response.put("views", topicToCreate.getViews());
+        response.put("__v", 0);
+        response.put("_id", topicToCreate.getId());
 
-        return null;
+
+        return response;
     }
 }
