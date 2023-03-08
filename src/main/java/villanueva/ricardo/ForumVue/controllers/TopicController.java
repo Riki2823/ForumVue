@@ -33,7 +33,8 @@ public class TopicController {
         int aux = 0;
         for (Topics t: topics){
             t.set_id();
-            response.put(aux, t);
+            Map<String, Object> items = topicsService.buildRespGetAll(t);
+            response.put(aux, items);
             aux++;
         }
         return response;

@@ -91,4 +91,33 @@ public class TopicsService {
         return response;
 
     }
+
+    public Map<String, Object> buildRespGetAll(Topics t) {
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("category", t.getCategory());
+        response.put("content", t.getContent());
+        response.put("createdAt", t.getCreatedAt());
+        response.put("id", t.get_id());
+        response.put("numberOfReplies", 0);
+        response.put("replies", null);
+        response.put("title", t.getTitle());
+        response.put("updatedAt", t.getUpdatedDate());
+        response.put("views", t.getViews());
+        response.put("__v", 0);
+        response.put("_id", t.get_id());
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("avatarUrl", "");
+        user.put("email", t.getUser().getEmail());
+        user.put("id", t.getUser().getId().toString());
+        user.put("name", t.getUser().getName());
+        user.put("role", t.getUser().getRole());
+        user.put("__v", 0);
+        user.put("_id", t.getUser().getId().toString());
+
+        response.put("user", user);
+
+        return response;
+    }
 }
