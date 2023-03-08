@@ -11,6 +11,7 @@ import villanueva.ricardo.ForumVue.model.Categories;
 import villanueva.ricardo.ForumVue.model.Topics;
 import villanueva.ricardo.ForumVue.service.CategoriesService;
 import villanueva.ricardo.ForumVue.service.TokenService;
+import villanueva.ricardo.ForumVue.service.TopicsService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,8 @@ public class TopicController {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    TopicsService topicsService;
     @Autowired
     CategoriesService categoriesService;
 
@@ -37,13 +40,9 @@ public class TopicController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization").replace("Bearer ", "");
 
-        System.out.println(topic.getContent());
-        System.out.println(topic.getTitle());
-        System.out.println(topic.getCategorySlug());
 
-        Topics topicToCreate = new Topics(topic.getContent(), topic.getTitle(), topic.getCategorySlug());
+        Topics topicToCreate = topicsService.addTopics(topic, token);
         Map<String, Object> response = new HashMap<>();
-        Categories cat = categoriesService.getCategoryBySlug(topicToCreate.getCategorySlug());
 
         return null;
     }

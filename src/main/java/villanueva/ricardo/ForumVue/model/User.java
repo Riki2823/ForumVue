@@ -1,9 +1,8 @@
 package villanueva.ricardo.ForumVue.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class User {
@@ -15,6 +14,9 @@ public class User {
     String name;
     String password;
     String role;
+
+    @OneToMany(mappedBy = "user")
+    Set<Topics> topicsSet;
 
     public Long getId() {
         return id;

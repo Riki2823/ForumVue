@@ -65,4 +65,8 @@ public class TokenService {
             return false;
         }
     }
+
+    public Long getUserId(String token) {
+        return JWT.require(Algorithm.HMAC512(tokenSecet.getBytes())).build().verify(token).getClaim("_id").asLong();
+    }
 }

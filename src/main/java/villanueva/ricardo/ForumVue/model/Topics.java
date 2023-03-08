@@ -1,6 +1,8 @@
 package villanueva.ricardo.ForumVue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.mapping.Join;
 
 @Entity
 public class Topics {
@@ -12,10 +14,60 @@ public class Topics {
 
     String title;
     String categorySlug;
+    String creationDate;
+    String updatedDate;
+    int nReplies;
+    int views;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
+    @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     Categories category;
+
+    public Topics() {}
+
+    public int getnReplies() {
+        return nReplies;
+    }
+
+    public void setnReplies(int nReplies) {
+        this.nReplies = nReplies;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
+    }
 
     public Categories getCategory() {
         return category;

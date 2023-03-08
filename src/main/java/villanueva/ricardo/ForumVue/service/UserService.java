@@ -42,4 +42,9 @@ public class UserService {
         }
         return root;
     }
+
+    public User findById(Long userId) {
+        List<User> users = userDAO.findByIdLike(userId);
+        return users.get(0);
+    }
 }

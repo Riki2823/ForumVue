@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface UserDAO extends JpaRepository<User, Long> {
     List<User> findByEmailLike(String email);
+
+    List<User> findByIdLike(Long userId);
 }
